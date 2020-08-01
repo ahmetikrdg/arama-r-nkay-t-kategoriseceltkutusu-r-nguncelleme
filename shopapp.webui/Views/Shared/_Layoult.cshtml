@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>MyView</title>
+    <link rel="stylesheet" href="/modules/bootstrap/dist/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+<link rel="stylesheet" href="~/css/style.css"> @*wwroot altında cssin içde stylecss dosyası açtım ona bazı özellikler verdim ve link olarak burayla entegre ettim*@
+</head>
+<body>
+    @if(IsSectionDefined("MessageBox")) @*eğer diğer sayfalarda messagebox varsa onu yazdır*@
+    {
+         @RenderSection("MessageBox")
+    }
+    else @*olaki yoksa*@
+    {
+        <div class="alert alert-primary text-center m-0">
+            Welcome!
+        </div>
+    }
+
+    @await Html.PartialAsync("_navbar")
+    <partial name="_header">
+
+    <main class="mb-3">
+        <div class="container"> 
+
+            @if(IsSectionDefined("Categories")) @* eğerki diğer sayfalarda @section Categories{
+   @await Component.InvokeAsync("Categories")}  varsa bu blogu ugyula*@
+            {
+                <div class="row">
+                    <div class="col-md-3"> @*üçlük kısma categoriesi getirirsin false yaptımki istemeyen getirmesin heryerde zorunlu olmasın*@
+                        @RenderSection("Categories",false)
+                    </div>
+                    <div class="col-md-9"> @*9luk kısma istediğini yazsın*@
+                        @RenderBody()
+                    </div>
+                </div>
+            }   
+            else @*categories yoksa direk 12lik kolona renderbody gelsin istediği yani*@
+            {
+                 <div class="row">
+                    <div class="col-md-12">
+                        @RenderBody()
+                    </div>
+                 </div>   
+            }
+            
+        </div>
+    </main>
+  <footer class="py-5 bg-dark text-white text-center">
+        Shop App | 2020
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+  @RenderSection("Scripts",false)
+
+</body>
+</html>
